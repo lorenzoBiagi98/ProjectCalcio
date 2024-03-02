@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dirigente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli%7CRoboto:400,300,500,700,900">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="icon" href="/img/Logo_ritagliato_45.png" type="image/png">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="login-container">
+                <h1>Football Manager</h1>
+                <img src="/img/Logo_ritagliato_45.png" alt="logoSerieA" class="logo-image">
+            </div>
+        </div>
+
+        <section id="welcome-message-dirigente">
+            <h1>Bevenuto nella sezione Dirigente: <span th:text="|${dirigente.nome} ${dirigente.cognome}"></span></h1>
+            <h2>Squadra: <span th:text="${squadra.nome}"></span></h2>
+        </section>
+
+        <nav>
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/loginpage}">Login</a></li>
+                <li><a href="#">Registati</a></li>
+                <li><a th:href="@{/contattaci}">Contattaci</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+        <div class="welcome-dirigente">
+            <!-- <section class="main-logo">
+                <img src="/img/logoSerieA.webp" alt="logoSerieA" class="main-logo-image">
+                <div class="main-logo-text">
+                    <h3>COMPETIZIONE</h3>
+                    <h1>SERIE A</h1>
+                </div>
+            </section> -->
+            <section class="main-text-dirigente-container">
+                <h2>Benvenuto in Football Manager Online!</h2>
+                <p>Prendi il controllo della tua squadra preferita e portala alla vittoria!</p>
+            </section>
+        </div>
+
+        <section class="dirigente-vendita-button-container">
+            <button id="In vendita" class="dirigente-vendita-button">In vendita</button>
+
+        </section>
+
+        <section class="dirigente-tabella-container">
+            <div class="dirigente-tabella-wrapper">
+                <table class="dirigente-tabella">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Età</th>
+                            <!--
+                            <th>Ruolo</th>
+                        -->
+                            <th>Prezzo</th>
+                            <th>Acquista</th>
+                            <th>Rimuovi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="calciatore,iter: ${listaTotale}">
+                            <td th:text="${calciatore.id}"></td>
+                            <td th:text="${calciatore.nome}"></td>
+                            <td th:text="${calciatore.cognome}"></td>
+                            <td th:text="${calciatore.eta}"></td>
+                            <td class="costo" th:text="${calciatore.costo}"></td>
+                            
+                            <td><button class="purchaseButton" data-id-squadra="${squadra.id}" data-id-giocatore="${calciatore.id}">Aquista</button></td>
+                            <td><button class="removeButton">Rimuovi</button></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <table class="dirigente-tabella">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Età</th>
+
+                            <th>Prezzo</th>
+                            <th>Vendi</th>
+                            <th>Rimuovi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="calciatore,iter: ${listaCalciatori}">
+                            <td th:text="${calciatore.id}"></td>
+                            <td th:text="${calciatore.nome}"></td>
+                            <td th:text="${calciatore.cognome}"></td>
+                            <td th:text="${calciatore.eta}"></td>
+                            <td class="costo" th:text="${calciatore.costo}"></td>
+                            <!---
+                            <td><button class="purchaseButton">Vendi</button></td>
+                            <td><button class="removeButton">Rimuovi</button></td>
+                        -->
+                        <td><input type="button" id="pulsanteVendita" class="sellButton" value="Vendi"></td>
+                        <td><input type="button" id="pulsanteRecupero" class="restituisciButton" value="Rimuovi" disabled></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </section>
+
+        <section class="carello-container">
+            <div class="carello-logo-container">
+                <div class="carello-logo">
+                    <img src="/img/cartello.png" alt="cartello">
+                </div>
+
+                <div class="carello-button-container">
+                    <button id="cartButton" class="carello-button">Calciatori: <span id="cartCount">0</span></button>
+                </div>
+            </div>
+
+            <div class="carello-totale">
+                <h1>Budget: <span id="budget" th:text="${squadra.budget}">10000000000 </span></h1>
+                <h1>Spesa Totale: <span id="spesaTotale">0</span></h1>
+
+                <form action="/transfer/${idDirigente}" method="POST">
+                    <input type="hidden" name="idSquadra" value="${squadra.id}">
+                    <input type="hidden" name="idCalciatore" value="${calciatore.id}">
+                    <!--
+                    <button onclick="acquistaTutto()" class="dirigente-vendita-button">Completa Acquisti</button>
+                -->
+                <button type = "submit" class = "dirigente-vendita-button">Acquista</button>
+                </form>
+
+                <button onclick="svuotaCarrello()" class="dirigente-vendita-button">Svuota Carrello</button>
+            </div>
+
+        </section>
+
+        <button class="dirigente-vendita-button" onclick="goBack()">Torna Indietro</button>
+
+    </main>
+
+    <footer class="footer-dirigente">
+        <p>© 2023 Football Manager Online. Tutti i diritti riservati.</p>
+    </footer>
+</body>
+<script src="/js/carrello.js"></script>
+<script src="/js/TornaIndietro.js"></script>
+</html>

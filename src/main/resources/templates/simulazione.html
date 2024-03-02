@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Match</title>
+    </head>
+    <body>
+    <form action = "/incontricasuali/${idAllenatore}" method = "get">
+    <h1 th:text = "${squadraCasa.nome}">Squadra di Casa</h1> <h1 th:text = "${squadraOspite.nome}">Squadra Ospite</h1>
+    <p th:text = "${risultato}"></p>
+    </form>
+    <input type = "button">Gioca</input>
+</body>
+<script src="/js/TornaIndietro.js"></script>
+    </html>
